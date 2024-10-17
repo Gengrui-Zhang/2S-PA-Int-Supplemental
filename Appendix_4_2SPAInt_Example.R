@@ -71,9 +71,9 @@ mod_tspa <- "
             lInt =~ 1 * fs_int
 
             # constrain the errors
-            fs_IM ~~ rel_IM * fs_IM
-            fs_EM ~~ rel_EM * fs_EM
-            fs_int ~~ rel_int * fs_int
+            fs_IM ~~ ev_IM * fs_IM
+            fs_EM ~~ ev_EM * fs_EM
+            fs_int ~~ ev_int * fs_int
             
             # regressions
             DV ~ b1*IM + b2*EM + b3*lInt
@@ -100,9 +100,10 @@ mod_tspa <- "
             beta2 := b2*sqrt(v2)/sqrt(var_y)
             beta3 := b3*sqrt(v1)*sqrt(v2)/sqrt(var_y)"
 
-mod_tspa <- gsub("rel_IM", replacement = fs_dat$fs_IM_se[1]^2, x = mod_tspa)
-mod_tspa <- gsub("rel_EM", replacement = fs_dat$fs_EM_se[1]^2, x = mod_tspa)
-mod_tspa <- gsub("rel_int", replacement = fs_dat$fs_int_se[1]^2, x = mod_tspa)
+# Replace with error-variance constraints
+mod_tspa <- gsub("ev_IM", replacement = fs_dat$fs_IM_se[1]^2, x = mod_tspa)
+mod_tspa <- gsub("ev_EM", replacement = fs_dat$fs_EM_se[1]^2, x = mod_tspa)
+mod_tspa <- gsub("ev_int", replacement = fs_dat$fs_int_se[1]^2, x = mod_tspa)
 
 # Append reading performance score
 fs_dat$DV <- PIRLS_Data[DV]
